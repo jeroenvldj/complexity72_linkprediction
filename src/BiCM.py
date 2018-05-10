@@ -233,7 +233,7 @@ class bicm_leastSquares:
         self._clean_problem()
 
     def solve_least_squares(self, initial_guess=None, method='trf', \
-                            scale=1.0, tr_solver='lsmr', disp=False):
+                            scale=1.0, tr_solver='lsmr', disp=True):
         self._initialize_problem()
         if initial_guess is None:
             self.r_x = self.r_dseq_rows * self.r_dseq_rows / self.n_edges
@@ -245,7 +245,7 @@ class bicm_leastSquares:
             x0 = initial_guess.astype(np.float64)
         res = opt.least_squares(self._equations_rvalue, x0, method=method, \
                                 jac=self._jacobian_rvalue, x_scale=scale, \
-                                tr_solver=tr_solver, verbose=disp)
+                                tr_solver=tr_solver, verbose=disp, xtol=1e-15)
         self._set_solved_problem(res)
         del(res)
         self._clean_problem()
